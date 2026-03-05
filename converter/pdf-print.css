@@ -84,6 +84,8 @@ ul li::before {
   content: "•";
   position: absolute;
   left: 0;
+  color: #87ad26;
+  font-size: 9pt;
 }
 
 ol {
