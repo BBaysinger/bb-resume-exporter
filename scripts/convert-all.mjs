@@ -45,7 +45,7 @@ function parseArgs(argv) {
 function usage() {
   const cmd = path.basename(process.argv[1]);
   console.log(`Usage:
-  ${cmd} [--contentDir <dir>] [--outputDir <dir>] [--formats <csv>] [--continueOnError]
+  ${cmd} [--contentDir <dir>] [--outputDir <dir>] [--formats <csv>] [--continueOnError] [--changedSince <git-ref>]
 
 Defaults:
   --contentDir input
@@ -54,7 +54,9 @@ Defaults:
 
 Examples:
   npm run convert:all
+  npm run convert:changed
   node scripts/convert-all.mjs --formats pdf
+  node scripts/convert-all.mjs --changedSince HEAD
   node scripts/convert-all.mjs --contentDir input --outputDir output
 `);
 }
@@ -110,6 +112,53 @@ function runNode(scriptPath, scriptArgs) {
   }
 }
 
+function runGit(contentDir, gitArgs) {
+  const result = spawnSync("git", gitArgs, {
+    cwd: contentDir,
+    encoding: "utf8",
+  });
+
+  if (result.error) {
+    fail(`Failed running git in ${contentDir}: ${result.error.message}`);
+  }
+
+  if (result.status !== 0) {
+    const details = result.stderr?.trim() || result.stdout?.trim();
+    fail(
+      `Git command failed in ${contentDir}: git ${gitArgs.join(" ")}${details ? `\n${details}` : ""}`,
+    );
+  }
+
+  return result.stdout.trim();
+}
+
+function listChangedMarkdownFiles(contentDir, gitRef) {
+  runGit(contentDir, ["rev-parse", "--show-toplevel"]);
+
+  const trackedOutput = runGit(contentDir, [
+    "diff",
+    "--name-only",
+    "--diff-filter=ACMR",
+    gitRef,
+    "--",
+    "*.md",
+  ]);
+  const untrackedOutput = runGit(contentDir, [
+    "ls-files",
+    "--others",
+    "--exclude-standard",
+    "--",
+    "*.md",
+  ]);
+
+  return new Set(
+    [...trackedOutput.split(/\r?\n/), ...untrackedOutput.split(/\r?\n/)]
+      .map((filePath) => filePath.trim())
+      .filter(Boolean)
+      .map((filePath) => path.resolve(contentDir, filePath)),
+  );
+}
+
 const args = parseArgs(process.argv.slice(2));
 if (args.help) {
   usage();
@@ -124,6 +173,8 @@ const formats = String(args.formats ?? "pdf,docx,html")
   .split(",")
   .map((f) => f.trim().toLowerCase())
   .filter(Boolean);
+const changedSince =
+  args.changedSince === true ? "HEAD" : args.changedSince || null;
 
 const continueOnError = Boolean(args.continueOnError);
 
@@ -137,11 +188,29 @@ const SKIP_BASENAMES = new Set([
   "Resume-TEMPLATE.stub.md",
   "CoverLetter-TEMPLATE.stub.md",
 ]);
-
-const mdFiles = listMarkdownFiles(contentDir)
+const allMdFiles = listMarkdownFiles(contentDir)
   .filter((filePath) => !SKIP_BASENAMES.has(path.basename(filePath)))
   .sort();
+
+if (allMdFiles.length === 0) {
+  fail(`No .md files found under: ${contentDir}`);
+}
+
+const changedFiles = changedSince
+  ? listChangedMarkdownFiles(contentDir, String(changedSince))
+  : null;
+const mdFiles = changedFiles
+  ? allMdFiles.filter((filePath) => changedFiles.has(filePath))
+  : allMdFiles;
+
 if (mdFiles.length === 0) {
+  if (changedSince) {
+    console.log(
+      `No changed .md files found under ${path.relative(repoRoot, contentDir) || path.basename(contentDir)} since ${changedSince}.`,
+    );
+    process.exit(0);
+  }
+
   fail(`No .md files found under: ${contentDir}`);
 }
 
@@ -211,5 +280,5 @@ if (failures > 0) {
 }
 
 console.log(
-  `\nDone. Converted ${mdFiles.length} file(s) into ${path.relative(repoRoot, outputDir)}/.`,
+  `\nDone. Converted ${mdFiles.length} file(s) into ${path.relative(repoRoot, outputDir)}/.${changedSince ? ` Filter: changed since ${changedSince}.` : ""}`,
 );

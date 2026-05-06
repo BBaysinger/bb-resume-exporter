@@ -70,6 +70,7 @@ Export the Markdown files you are actively working from under `input/`:
 
 ```bash
 npm run convert:all
+npm run convert:changed
 ```
 
 Convert a single input file:
@@ -135,6 +136,7 @@ npm run convert:all
 npm run convert:all -- --formats pdf,docx,html
 npm run convert:all -- --formats docx,html
 npm run convert:all -- --continueOnError
+npm run convert:all -- --changedSince HEAD
 ```
 
 Flags:
@@ -143,11 +145,26 @@ Flags:
 - `--outputDir`: output directory (default: `output/`)
 - `--formats`: comma-separated list from `pdf,docx,html` (default: `pdf,docx,html`)
 - `--continueOnError`: keep going if a file fails
+- `--changedSince`: only convert `.md` files changed in the `contentDir` git repo relative to the given git ref; also includes untracked Markdown files
 
 Notes:
 
 - Underscore-prefixed directories (like `input/_archive/`) are treated as non-content and are skipped.
 - If `pdf` is in `--formats`, HTML is generated as part of the PDF pipeline.
+
+### `npm run convert:changed`
+
+Shortcut for only exporting Markdown files under `input/` that differ from the last commit in the private `input/` git repo.
+
+```bash
+npm run convert:changed
+```
+
+This is equivalent to:
+
+```bash
+node scripts/convert-all.mjs --changedSince HEAD
+```
 
 ### `npm run draft:email` (experimental)
 
