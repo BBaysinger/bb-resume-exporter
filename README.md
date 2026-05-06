@@ -2,7 +2,7 @@
 
 Static tooling to keep resumes and cover letters in Markdown so revisions stay easy to compare in git, then export those sources to polished HTML, PDF, and DOCX deliverables.
 
-Purpose: eliminate the tedium of working in Microsoft/Adobe tooling (Word, Acrobat, etc.) for resumes and cover letters by keeping **Markdown as the single source of truth**. This repo does not generate resume content; it renders and normalizes Markdown you already wrote. The main benefit is that each revision remains plain text, so you can inspect edits with normal diffs, track targeted changes between application versions, and only export when you need a delivery format. The pipeline then keeps HTML, PDF, and DOCX outputs consistent so you do not have to rework formatting by hand each time.
+Purpose: eliminate the tedium of working in Microsoft/Adobe tooling (Word, Acrobat, etc.) for resumes and cover letters by keeping **Markdown as the single source of truth**. This repo does not generate resume content; it renders and normalizes Markdown you already wrote. The main benefit is that each revision remains plain text, so you can inspect edits with normal diffs, track targeted changes between application versions, and only export when you need a delivery format. The pipeline then keeps HTML, PDF, and DOCX outputs consistent so you do not have to rework formatting by hand or bounce documents between formats like PDF and DOCX each time.
 
 Original concept: BBaysinger.
 
