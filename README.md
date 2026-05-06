@@ -2,9 +2,9 @@
 
 Static tooling to turn a Markdown resume (and cover letter) into polished HTML (including HTML email), PDF, and DOCX deliverables.
 
-Purpose: eliminate the tedium of working in MicroSoft/Adobe tooling (Word, Acrobat, etc.) for resumes and cover letters by keeping **Markdown as the single source of truth**. This approach improves ATS compatibility (clean, structured text), gives you more flexibility in authoring (versionable, diffable, reusable content), and aims to keep outputs consistent across formats so you don’t have to re-author, convert, or “fix formatting” every time you export.
+Purpose: eliminate the tedium of working in Microsoft/Adobe tooling (Word, Acrobat, etc.) for resumes and cover letters by keeping **Markdown as the single source of truth**. This approach improves ATS compatibility (clean, structured text), gives you more flexibility in authoring (versionable, diffable, reusable content), and aims to keep outputs consistent across formats so you don’t have to re-author, convert, or “fix formatting” every time you export.
 
-Original concept, implementation, and authoring: BBaysinger.
+Original concept: BBaysinger.
 
 At a glance:
 
