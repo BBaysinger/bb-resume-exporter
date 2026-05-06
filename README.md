@@ -1,14 +1,15 @@
 # Resume Exporter
 
-Static tooling to turn a Markdown resume (and cover letter) into polished HTML (including HTML email), PDF, and DOCX deliverables.
+Static tooling to keep resumes and cover letters in Markdown so revisions stay easy to compare in git, then export those sources to polished HTML, PDF, and DOCX deliverables.
 
-Purpose: eliminate the tedium of working in Microsoft/Adobe tooling (Word, Acrobat, etc.) for resumes and cover letters by keeping **Markdown as the single source of truth**. This approach improves ATS compatibility (clean, structured text), gives you more flexibility in authoring (versionable, diffable, reusable content), and aims to keep outputs consistent across formats so you don’t have to re-author, convert, or “fix formatting” every time you export.
+Purpose: eliminate the tedium of working in Microsoft/Adobe tooling (Word, Acrobat, etc.) for resumes and cover letters by keeping **Markdown as the single source of truth**. This repo does not generate resume content; it renders and normalizes Markdown you already wrote. The main benefit is that each revision remains plain text, so you can inspect edits with normal diffs, track targeted changes between application versions, and only export when you need a delivery format. The pipeline then keeps HTML, PDF, and DOCX outputs consistent so you do not have to rework formatting by hand each time.
 
 Original concept: BBaysinger.
 
 At a glance:
 
-- Markdown → HTML via Pandoc, using a repo template + CSS.
+- Markdown-first workflow that keeps source revisions diffable in git.
+- Markdown → HTML via Pandoc, using a shared layout template + CSS.
 - HTML → PDF via WeasyPrint (print CSS controls the PDF look).
 - Markdown → DOCX via Pandoc (experimental), then post-processed so Word formatting is more consistent.
 
@@ -65,7 +66,7 @@ bash scripts/input/_scripts/setup-hooks.sh
 
 ## Quick start
 
-Convert everything under `input/` (most common):
+Export the Markdown files you are actively working from under `input/`:
 
 ```bash
 npm run convert:all
@@ -124,9 +125,9 @@ Common flags:
 
 ### `npm run convert:all`
 
-Batch convert every `*.md` found under `input/`.
+Export the Markdown files currently stored under `input/`.
 
-Note: `input/Resume-TEMPLATE.stub.md` is treated as a non-convertible template and is skipped by `convert:all`.
+Note: `input/Resume-TEMPLATE.stub.md` is treated as a reference stub and is skipped by `convert:all`.
 If you want to render it anyway, use a single-file command (e.g. `npm run build:html -- --input "input/Resume-TEMPLATE.stub.md"`).
 
 ```bash
@@ -190,20 +191,20 @@ Starter-state note: email HTML rendering varies a lot between clients. Expect to
 
 - [input/](input/) — source Markdown resumes/cover letters (this folder is its own git repo; ignored by this repo’s `.gitignore`).
 - [output/](output/) — generated artifacts (safe to delete/regenerate).
-- [examples/](examples/) — tracked templates/examples you can copy into `input/`:
-  - [examples/Resume-TEMPLATE.stub.md](examples/Resume-TEMPLATE.stub.md)
-  - [examples/Resume-EXAMPLE.lorem.md](examples/Resume-EXAMPLE.lorem.md)
-  - [examples/CoverLetter-TEMPLATE.stub.md](examples/CoverLetter-TEMPLATE.stub.md)
-  - [examples/CoverLetter-EXAMPLE.lorem.md](examples/CoverLetter-EXAMPLE.lorem.md)
+- [examples/](examples/) — tracked reference files for structure, formatting, and output expectations:
+  - [examples/Resume-TEMPLATE.stub.md](examples/Resume-TEMPLATE.stub.md) — minimal resume stub
+  - [examples/Resume-EXAMPLE.lorem.md](examples/Resume-EXAMPLE.lorem.md) — filled resume example
+  - [examples/CoverLetter-TEMPLATE.stub.md](examples/CoverLetter-TEMPLATE.stub.md) — minimal cover letter stub
+  - [examples/CoverLetter-EXAMPLE.lorem.md](examples/CoverLetter-EXAMPLE.lorem.md) — filled cover letter example
 - [converter/](converter/) — Pandoc template, CSS, Lua filters, and DOCX normalization scripts.
-- [scripts/](scripts/) — Node entrypoints for single-file and batch conversions.
+- [scripts/](scripts/) — Node entrypoints for single-file exports and repo-wide export runs.
 
 ## Private `input/` repo (how it works)
 
-This repo intentionally treats `input/` as a **separate git repo** so you can version your real resumes/cover letters locally (or in a private remote) without ever committing them to this tooling repo or pushing them to GitHub.
+This repo intentionally treats `input/` as a **separate git repo** so you can keep private, human-authored resume and cover letter revisions under version control without ever committing them to this tooling repo or pushing them to GitHub.
 
 - The parent repo ignores `input/` via `.gitignore`, so your private files won’t show up in the parent repo’s `git status`.
-- If you want version history, commit inside `input/`:
+- If you want to compare revisions over time, commit inside `input/` and use normal git diff/log tooling there:
 
 ```bash
 cd input

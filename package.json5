@@ -1,26 +1,24 @@
 {
   // Package name used for local tooling and npm metadata.
-  "name": "resume-export",
+  name: "resume-export",
   // Project version kept in sync with generated outputs and releases.
-  "version": "1.0.0",
+  version: "1.0.0",
   // Prevents accidental publication of this private resume workspace.
-  "private": true,
+  private: true,
   // Development-only tools used to sync and format manifest files.
-  "devDependencies": {
+  devDependencies: {
     // Maintains this documented JSON5 companion from canonical package.json.
     "json5-manifest-sync": "^0.1.3",
     // Formats repo sources and markdown content consistently.
-    "prettier": "^3.6.2",
+    prettier: "^3.6.2",
   },
   // Prettier settings tailored for this repository's script layout.
-  "prettier": {
+  prettier: {
     // Use Babel parsing for .mjs utility scripts.
-    "overrides": [
-      {"files":["*.mjs"],"options":{"parser":"babel"}},
-    ],
+    overrides: [{ files: ["*.mjs"], options: { parser: "babel" } }],
   },
   // Common workflows for exporting resumes and maintaining source files.
-  "scripts": {
+  scripts: {
     // Render the active resume source into HTML.
     "build:html": "node scripts/resume.mjs build-html",
     // Run the full conversion pipeline across available inputs.
@@ -38,13 +36,13 @@
     // Install git hooks for input content maintenance.
     "setup:input-hooks": "bash scripts/input/_scripts/setup-hooks.sh",
     // Format the repository while respecting the shared ignore list.
-    "format": "prettier --write . --ignore-path .prettierignore",
+    format: "prettier --write . --ignore-path .prettierignore",
     // Verify repository formatting without modifying files.
     "format:check": "prettier --check . --ignore-path .prettierignore",
     // Format only markdown resume inputs with the dedicated config.
-    "format:md": "prettier --config .prettierrc.json --write \"input/**/*.md\"",
+    "format:md": 'prettier --config .prettierrc.json --write "input/**/*.md"',
     // Check markdown resume inputs against the dedicated config.
-    "format:md:check": "prettier --config .prettierrc.json --check \"input/**/*.md\"",
+    "format:md:check": 'prettier --config .prettierrc.json --check "input/**/*.md"',
     // Sync this companion file from the canonical package manifest.
     "sync:json5": "json5-manifest-sync --no-empty-comment",
   },
