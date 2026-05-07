@@ -39,7 +39,7 @@
     // Check whether markdown unicode normalization would make changes.
     "normalize:md:check": "python3 scripts/input/_scripts/normalize_markdown_unicode.py --check input",
     // Run formatting, then resync package.json5 before committing changes.
-    "precommit": "npm run format && npm run sync:packages",
+    "precommit": "npm run format && npm run sync:json5",
     // Install git hooks for input content maintenance.
     "setup:input-hooks": "bash scripts/input/_scripts/setup-hooks.sh",
     // Format the repository while respecting the shared ignore list.
@@ -51,6 +51,6 @@
     // Check markdown resume inputs against the dedicated config.
     "format:md:check": "prettier --config .prettierrc.json --check \"input/**/*.md\"",
     //
-    "sync:packages": "json5-manifest-sync --blank-comments=fill",
+    "sync:json5": "json5-manifest-sync --blank-comments=fill",
   },
 }

@@ -27,12 +27,12 @@
     "export:docx": "node scripts/resume.mjs export-docx",
     "normalize:md": "python3 scripts/input/_scripts/normalize_markdown_unicode.py --write input",
     "normalize:md:check": "python3 scripts/input/_scripts/normalize_markdown_unicode.py --check input",
-    "precommit": "npm run format && npm run sync:packages",
+    "precommit": "npm run format && npm run sync:json5",
     "setup:input-hooks": "bash scripts/input/_scripts/setup-hooks.sh",
     "format": "prettier --write . --ignore-path .prettierignore",
     "format:check": "prettier --check . --ignore-path .prettierignore",
     "format:md": "prettier --config .prettierrc.json --write \"input/**/*.md\"",
     "format:md:check": "prettier --config .prettierrc.json --check \"input/**/*.md\"",
-    "sync:packages": "json5-manifest-sync --blank-comments=fill"
+    "sync:json5": "json5-manifest-sync --blank-comments=fill"
   }
 }
