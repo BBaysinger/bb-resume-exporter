@@ -128,8 +128,8 @@ Common flags:
 
 Export the Markdown files currently stored under `input/`.
 
-Note: `input/Resume-TEMPLATE.stub.md` is treated as a reference stub and is skipped by `convert:all`.
-If you want to render it anyway, use a single-file command (e.g. `npm run build:html -- --input "input/Resume-TEMPLATE.stub.md"`).
+Note: reference stub files named `Resume-TEMPLATE.stub.md` and `CoverLetter-TEMPLATE.stub.md` are skipped by `convert:all`.
+If you want to render a stub anyway, use a single-file command (e.g. `npm run build:html -- --input "examples/Resume-TEMPLATE.stub.md"`).
 
 ```bash
 npm run convert:all
@@ -178,8 +178,8 @@ Examples:
 
 ```bash
 npm run draft:email -- \
-  --cover "input/Codespeed-Front-End-Developer-Cover.md" \
-  --resume "input/Codespeed-Front-End-Developer.md" \
+  --cover "input/Codespeed-Cover-2nd.md" \
+  --resume "input/Codespeed-Resume-2nd.md" \
   --to "hiring@example.com" \
   --subject "Front End Developer Application"
 ```
@@ -188,16 +188,16 @@ If you already have the PDF:
 
 ```bash
 npm run draft:email -- \
-  --cover "input/Codespeed-Front-End-Developer-Cover.md" \
-  --resumePdf "output/Codespeed-Front-End-Developer.pdf"
+  --cover "input/Codespeed-Cover-2nd.md" \
+  --resumePdf "output/Codespeed-Resume-2nd.pdf"
 ```
 
-Using the tracked lorem example inputs:
+Using the tracked example inputs:
 
 ```bash
 npm run draft:email -- \
-  --cover "input/CoverLetter-EXAMPLE.lorem.md" \
-  --resume "input/Resume-EXAMPLE.lorem.md" \
+  --cover "examples/CoverLetter-EXAMPLE.lorem.md" \
+  --resume "examples/Resume-EXAMPLE.lorem.md" \
   --to "hiring@example.com" \
   --subject "Front-End Engineer Application"
 ```
@@ -208,7 +208,7 @@ Starter-state note: email HTML rendering varies a lot between clients. Expect to
 
 - [input/](input/) — source Markdown resumes/cover letters (this folder is its own git repo; ignored by this repo’s `.gitignore`).
 - [output/](output/) — generated artifacts (safe to delete/regenerate).
-- [examples/](examples/) — tracked reference files for structure, formatting, and output expectations:
+- [examples/](examples/) — tracked reference files for structure, formatting, and output expectations; useful for testing commands without touching the private `input/` repo:
   - [examples/Resume-TEMPLATE.stub.md](examples/Resume-TEMPLATE.stub.md) — minimal resume stub
   - [examples/Resume-EXAMPLE.lorem.md](examples/Resume-EXAMPLE.lorem.md) — filled resume example
   - [examples/CoverLetter-TEMPLATE.stub.md](examples/CoverLetter-TEMPLATE.stub.md) — minimal cover letter stub
