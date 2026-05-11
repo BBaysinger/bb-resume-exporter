@@ -16,7 +16,7 @@
   "prettier": {
     // Use Babel parsing for .mjs utility scripts.
     "overrides": [
-      //
+      // Match ES module helper scripts in the repo root.
       {"files":["*.mjs"],"options":{"parser":"babel"}},
     ],
   },
@@ -50,7 +50,7 @@
     "format:md": "prettier --config .prettierrc.json --write \"input/**/*.md\"",
     // Check markdown resume inputs against the dedicated config.
     "format:md:check": "prettier --config .prettierrc.json --check \"input/**/*.md\"",
-    //
+    // Sync package.json5 comments and structure from the canonical JSON manifest.
     "sync:json5": "json5-manifest-sync --blank-comments=fill",
   },
 }

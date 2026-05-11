@@ -143,7 +143,7 @@ hr {
   width: 132pt;
   max-width: 100%;
   height: auto;
-  margin: 4pt 0 2pt;
+  margin: 8pt 0 2pt;
 }
 
 .signature-name {
@@ -153,9 +153,9 @@ hr {
 }
 
 .signature-name .name-first {
-  color: var(--heading-color);
+  color: #999;
 }
 
 .signature-name .name-last {
-  color: #999;
+  color: var(--heading-color);
 }
