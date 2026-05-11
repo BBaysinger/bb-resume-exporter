@@ -94,6 +94,14 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
+function buildPandocResourcePath(...pathsToInclude) {
+  return [
+    ...new Set(
+      pathsToInclude.filter(Boolean).map((entry) => path.resolve(entry)),
+    ),
+  ].join(path.delimiter);
+}
+
 function usage() {
   const cmd = path.basename(process.argv[1]);
   console.log(`Usage:
@@ -143,9 +151,12 @@ const pdf = args.pdf ?? defaults.pdf;
 const docx = args.docx ?? defaults.docx;
 
 if (command === "build-html") {
+  const resourcePath = buildPandocResourcePath(path.dirname(input), repoRoot);
   run("pandoc", [
     "--standalone",
     "--embed-resources",
+    "--resource-path",
+    resourcePath,
     "--template",
     template,
     "--lua-filter",
@@ -180,7 +191,15 @@ if (command === "export-docx") {
   // Convert directly from Markdown to DOCX. Pandoc does not reliably apply
   // external CSS during HTML->DOCX conversion, so we normalize DOCX styles
   // after conversion to approximate the converter CSS.
-  run("pandoc", ["--standalone", input, "-o", docx]);
+  const resourcePath = buildPandocResourcePath(path.dirname(input), repoRoot);
+  run("pandoc", [
+    "--standalone",
+    "--resource-path",
+    resourcePath,
+    input,
+    "-o",
+    docx,
+  ]);
 
   const python = getVenvPython(repoRoot);
   const normalizer = path.join(

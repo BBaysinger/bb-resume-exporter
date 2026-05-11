@@ -134,7 +134,20 @@ hr {
   margin-bottom: 0 !important;
 }
 
+.signature-block {
+  margin: 6pt 0 4pt;
+}
+
+.signature-mark {
+  display: block;
+  width: 132pt;
+  max-width: 100%;
+  height: auto;
+  margin: 4pt 0 2pt;
+}
+
 .signature-name {
+  display: inline-block;
   font-size: 11pt;
   font-weight: 600;
 }

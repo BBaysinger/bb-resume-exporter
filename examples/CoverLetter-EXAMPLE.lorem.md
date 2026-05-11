@@ -27,5 +27,8 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 
 Thank you for your time and consideration. I’ve included my resume and would welcome the opportunity to discuss how I can contribute to ACME Corp.
 
-Sincerely,  
-**Jordan Exampleton**
+<p class="signature-block">
+	Sincerely,<br />
+	<img class="signature-mark" src="../images/signature.svg" alt="Jordan Exampleton signature" /><br />
+	<span class="signature-name">Jordan Exampleton</span>
+</p>

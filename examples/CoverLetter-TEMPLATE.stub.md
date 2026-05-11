@@ -25,5 +25,8 @@ Hello {{GREETING_NAME_OR_TEAM}},
 
 Thank you for your time and consideration. I’ve included my resume and would welcome the opportunity to discuss how I can contribute to {{COMPANY_NAME}}.
 
-Sincerely,  
-**{{FULL_NAME}}**
+<p class="signature-block">
+	Sincerely,<br />
+	<img class="signature-mark" src="../images/signature.svg" alt="{{FULL_NAME}} signature" /><br />
+	<span class="signature-name">{{FULL_NAME}}</span>
+</p>

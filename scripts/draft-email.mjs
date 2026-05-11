@@ -64,6 +64,14 @@ function fileExists(filePath) {
   }
 }
 
+function buildPandocResourcePath(...pathsToInclude) {
+  return [
+    ...new Set(
+      pathsToInclude.filter(Boolean).map((entry) => path.resolve(entry)),
+    ),
+  ].join(path.delimiter);
+}
+
 function run(command, commandArgs, { cwd } = {}) {
   const result = spawnSync(command, commandArgs, {
     cwd,
@@ -192,9 +200,13 @@ function buildPandocHtml({
   template,
   css,
   alignDatesFilter,
+  repoRoot,
 }) {
+  const resourcePath = buildPandocResourcePath(path.dirname(inputMd), repoRoot);
   const args = [
     "--standalone",
+    "--resource-path",
+    resourcePath,
     "--template",
     template,
     "--css",
@@ -375,6 +387,7 @@ buildPandocHtml({
   template,
   css,
   alignDatesFilter,
+  repoRoot,
 });
 
 let coverHtml = fs.readFileSync(coverHtmlPath, "utf-8");
