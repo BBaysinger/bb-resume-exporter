@@ -8,7 +8,7 @@
   // Development-only tools used to sync and format manifest files.
   "devDependencies": {
     // Maintains this documented JSON5 companion from canonical package.json.
-    "json5-manifest-sync": "^0.2.0",
+    "json5-manifest-sync": "^0.2.1",
     // Formats repo sources and markdown content consistently.
     "prettier": "^3.8.3",
   },
